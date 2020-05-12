@@ -14,7 +14,8 @@
               android:textAlignment="center"
               android:text="Login"
               android:textSize="25sp"
-              android:textColor="@color/colorBlack"/>
+              android:textColor="@color/colorBlack"
+        android:gravity="center_horizontal" />
 
 
 
@@ -25,7 +26,7 @@
             android:id="@+id/emailTIL"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true">
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:id="@+id/emailEt"
@@ -43,12 +44,12 @@
             app:passwordToggleEnabled="true"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true">
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:id="@+id/passwordEt"
-                  android:hint="Password"
-                  android:inputType="textPassword"/>
+                  android:inputType="textPassword"
+                  android:hint="Password" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <!--Button: Register User-->
@@ -77,6 +78,7 @@
               android:textAlignment="center"
               android:layout_below="@+id/googleLoginBtn"
               android:layout_marginTop="30dp"
-              android:textColor="@color/colorBlack"/>
+              android:textColor="@color/colorBlack"
+        android:gravity="center_horizontal" />
 
 </RelativeLayout>
