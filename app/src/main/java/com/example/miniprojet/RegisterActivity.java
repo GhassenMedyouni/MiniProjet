@@ -1,7 +1,10 @@
 package com.example.miniprojet;
 
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -28,16 +31,17 @@ import java.util.HashMap;
 public class RegisterActivity extends AppCompatActivity {
 
     //views
-    TextInputEditText  mEmailEt, mPasswordEt;
+    EditText  mEmailEt, mPasswordEt;
     Button mRegisterBtn;
     TextView mHaveAccountTv;
 
     //progressbar to display while registering user
-   // ProgressDialog progressDialog;
+    ProgressDialog progressDialog;
 
     //declare an instance of firebase auth
     private FirebaseAuth mAuth;
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,38 +58,20 @@ public class RegisterActivity extends AppCompatActivity {
         //init
         mEmailEt = findViewById(R.id.emailEt);
         mPasswordEt = findViewById(R.id.passwordEt);
-        mRegisterBtn = findViewById(R.id.registerBtn);
+        mRegisterBtn = (Button) findViewById(R.id.registerBtn);
         mHaveAccountTv = findViewById(R.id.have_accountTv);
 
         //in ht onCreate() method , intialize the firebase auth instance
         mAuth = FirebaseAuth.getInstance();
-       // progressDialog = new ProgressDialog(this);
-       // progressDialog.setMessage("Registering User ...");
+        progressDialog = new ProgressDialog(this);
 
-        //handle register btn click
         mRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //input mail, pass
-                String email = mEmailEt.getText().toString().trim();
-                String password = mPasswordEt.getText().toString().trim();
-                //validate
-                if (Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                    //set error and focus to email edittext
-                    mEmailEt.setError("Invalid Email");
-                    mEmailEt.setFocusable(true);
-                }
-                else if (password.length()<6){
-                    //set error and focus to pass edit text
-                    mPasswordEt.setError("Password length at least 6 characters");
-                    mPasswordEt.setFocusable(true);
-                }
-                else {
-                    registerUser(email,password); //register the user
-                }
-
+                registerUser();
             }
         });
+
         //handle login textview click listner
         mHaveAccountTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,9 +83,26 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private void registerUser(String email, String password) {
-        //email and password pattern is valid, show progress dialog and start registering user
-        //progressDialog.show();
+
+    private void registerUser() {
+            //getting email and password from edit texts
+        String email = mEmailEt.getText().toString().trim();
+        String password  = mPasswordEt.getText().toString().trim();
+
+        //checking if email and passwords are empty
+        if(TextUtils.isEmpty(email)){
+            Toast.makeText(this,"Please enter email",Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if(TextUtils.isEmpty(password)){
+            Toast.makeText(this,"Please enter password",Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        progressDialog.setMessage("Registering Please Wait...");
+        progressDialog.show();
+
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -107,7 +110,7 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
                             //sign in success, dismiss dialog and start register activity
-                           // progressDialog.dismiss();
+                            progressDialog.dismiss();
                             FirebaseUser user = mAuth.getCurrentUser();
 
                             //get user email and uid from auth
@@ -132,16 +135,12 @@ public class RegisterActivity extends AppCompatActivity {
                             reference.child(uid).setValue(hashMap);
 
 
-
-
-
-
                             Toast.makeText(RegisterActivity.this, "Registred...\n"+user.getEmail(),Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(RegisterActivity.this, DashboardActivity.class));
                             finish();
                         }else {
                             //if sign fails , display a message to the user
-                           // progressDialog.dismiss();
+                            progressDialog.dismiss();
                             Toast.makeText(RegisterActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
@@ -150,7 +149,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 //error, dismiss progress dialog and get and show the error message
-                //progressDialog.dismiss();
+                progressDialog.dismiss();
                 Toast.makeText(RegisterActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
@@ -164,15 +163,4 @@ public class RegisterActivity extends AppCompatActivity {
         return super.onSupportNavigateUp();
     }
 
-    @Override
-    protected void onPause() {
-
-        // hide the keyboard in order to avoid getTextBeforeCursor on inactive InputConnection
-        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        assert inputMethodManager != null;
-        inputMethodManager.hideSoftInputFromWindow(mEmailEt.getWindowToken(), 0);
-
-        super.onPause();
-    }
 }

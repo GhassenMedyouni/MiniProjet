@@ -1,5 +1,6 @@
 package com.example.miniprojet;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.util.Patterns;
 import android.view.View;
@@ -44,6 +45,9 @@ public class LoginActivity extends AppCompatActivity {
     Button mLoginBtn ;
     SignInButton mGoogleLoginBtn;
 
+    ProgressDialog pd;
+
+
     //declare instance of firebase auth
     private FirebaseAuth mAuth;
 
@@ -87,14 +91,14 @@ public class LoginActivity extends AppCompatActivity {
                 //input data
                 String email = mEmailEt.getText().toString();
                 String passw = mPasswordEt.getText().toString().trim();
-                if (Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+               /** if (Patterns.EMAIL_ADDRESS.matcher(email).matches()){
                     //invalid email pattern set error
                     mEmailEt.setError("Invalid Email");
                     mEmailEt.setFocusable(true);
-                }else {
+                }**/
                     //valid email pattern
                     loginUser(email, passw);
-                }
+
 
             }
         });
@@ -118,14 +122,14 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         //init progress dialog
-        //pd = new ProgressDialog(this);
-        //pd.setMessage("Logging In ...");
+        pd = new ProgressDialog(this);
+        pd.setMessage("Logging In ...");
 
     }
 
     private void loginUser(String email, String passw) {
         //show progress dialog
-        //pd.show();
+        pd.show();
 
         mAuth.signInWithEmailAndPassword(email, passw)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
