@@ -14,7 +14,7 @@ import androidx.navigation.ui.NavigationUI;
 public class MainActivity extends AppCompatActivity {
 
     //views
-    Button mRegisterBtn, mLoginBtn;
+    Button mRegisterBtn, mLoginBtn, admin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         //init Views
         mRegisterBtn = findViewById(R.id.register_btn);
         mLoginBtn = findViewById(R.id.login_btn);
+        admin = findViewById(R.id.adminBtn);
 
         //handle register button click
 
@@ -45,6 +46,13 @@ public class MainActivity extends AppCompatActivity {
                 //start activity
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
 
+            }
+        });
+
+        admin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, LoginAdminActivity.class));
             }
         });
 

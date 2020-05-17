@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    tools:context=".LoginAdminActivity">
+
+
+
+
+        <!--TextView: label login-->
+        <TextView android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Login Admin"
+            android:textSize="25sp"
+            android:textColor="@color/colorBlack"
+            android:gravity="center_horizontal" />
+
+
+
+        <!--Edit text: input mail -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/emailTIL"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/emailEtad"
+                android:hint="Email"
+                android:inputType="textEmailAddress"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        !--Edit text: input password  -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/passwordTIL"
+            android:layout_below="@+id/emailTIL"
+            app:passwordToggleEnabled="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/passwordEtad"
+                android:inputType="textPassword"
+                android:hint="Password" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Button: login User-->
+        <Button android:id="@+id/admin_Btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:layout_below="@id/passwordTIL"
+            android:layout_centerHorizontal="true"
+            android:drawablePadding="5dp"
+            android:background="@color/colorPrimary"
+            style="@style/Base.Widget.AppCompat.Button.Colored" />
+
+
+
+    </RelativeLayout>
+
