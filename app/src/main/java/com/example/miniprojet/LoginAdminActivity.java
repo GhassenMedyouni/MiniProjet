@@ -35,8 +35,7 @@ import java.util.HashMap;
 
 public class LoginAdminActivity extends AppCompatActivity {
 
-    private static final int RC_SIGN_IN = 100;
-    GoogleSignInClient mGoogleSignInClient;
+
 
     //views
     TextInputEditText mEmailEt, mPasswordEt;

@@ -90,7 +90,8 @@ public class UsersFragment extends Fragment {
                     ModelUser modelUser = ds.getValue(ModelUser.class);
 
                     //get all users expect currently signed in user
-                    if (!modelUser.getUid().equals(fUser.getUid())){
+
+                    if (modelUser.getUid()!= null && !modelUser.getUid().equals(fUser.getUid())){
                        userList.add(modelUser);
                     }
 

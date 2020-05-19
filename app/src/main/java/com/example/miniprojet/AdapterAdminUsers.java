@@ -7,9 +7,9 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,55 +18,45 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class AdapterUsers extends  RecyclerView.Adapter<AdapterUsers.MyHolder>{
+public class AdapterAdminUsers extends  RecyclerView.Adapter<AdapterAdminUsers.MyHolder> {
 
     Context context;
-    List<ModelUser> userList;
 
-    //Constructor
-    public AdapterUsers (Context context, List<ModelUser> userList){
+    public AdapterAdminUsers(Context context, List<ModelUser> userList2) {
         this.context = context;
-        this.userList = userList;
+        this.userList2 = userList2;
     }
 
-
-
-
-    @Override
-    public int getItemCount() {
-        return userList.size();
-    }
+    List<ModelUser> userList2;
 
 
 
 
     @NonNull
     @Override
-    public MyHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        //inflate layout (row_user.xml)
-        View view = LayoutInflater.from(context).inflate(R.layout.row_users, viewGroup, false);
+    public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_users_admin, parent, false);
         return new MyHolder(view );
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int i) {
         //get data
-        final String hisUID = userList.get(i).getUid();
-        String userImage = userList.get(i).getImage();
-        String userName = userList.get(i).getName();
-        final String userEmail = userList.get(i).getEmail();
+        final String hisUID = userList2.get(i).getUid();
+        String userImage = userList2.get(i).getImage();
+        String userName = userList2.get(i).getName();
+        final String userEmail = userList2.get(i).getEmail();
 
         //set data
-        holder.mNameTv.setText(userName);
-        holder.mEmailTv.setText(userEmail);
+        holder.mNameTvAd.setText(userName);
+        holder.mEmailTvAd.setText(userEmail);
         try {
             Picasso.get().load(userImage)
                     .placeholder(R.drawable.ic_default_img)
-                    .into(holder.mAvatarIv);
-        } catch (Exception e) {
+                    .into(holder.mAvatarIvAd);
+        } catch (Exception e){
 
         }
-
 
         //handle item click
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -92,21 +82,26 @@ public class AdapterUsers extends  RecyclerView.Adapter<AdapterUsers.MyHolder>{
 
     }
 
-
+    @Override
+    public int getItemCount() {
+        return userList2.size();
+    }
 
     class MyHolder extends RecyclerView.ViewHolder{
 
-        ImageView mAvatarIv;
-        TextView mNameTv, mEmailTv;
+       ImageView mAvatarIvAd;
+       TextView mNameTvAd, mEmailTvAd;
+       ImageButton deleteBtn;
 
-        public MyHolder(@NonNull View itemView) {
-            super(itemView);
+       public MyHolder(@NonNull View itemView) {
+           super(itemView);
 
-            //init views
-            mAvatarIv = itemView.findViewById(R.id.avatarIv);
-            mNameTv = itemView.findViewById(R.id.nameTv);
-            mEmailTv = itemView.findViewById(R.id.emailTv);
+           //init views
+           mAvatarIvAd = itemView.findViewById(R.id.avatarIvAd);
+           mNameTvAd = itemView.findViewById(R.id.nameTvAd);
+           mEmailTvAd = itemView.findViewById(R.id.emailTvAd);
+       }
+   }
 
-        }
-    }
+
 }
